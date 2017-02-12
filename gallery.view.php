@@ -1,107 +1,96 @@
-
+<!-- I, Bobby Filippopoulos, 000338236, Verify that this is my work and only my work-->
 <!doctype html>
 <html class="no-js" lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Foundation | Welcome</title>
-    <link rel="stylesheet" href="css/bootstrap.css" />
+    <title>Gallery</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+
   </head>
   <body>
 
-    <div class="row">
-      <div class="large-12 columns">
-        <h1 class="text-center subheader"><a href="<?= $TPL['controller'] ?>"><strong>My Photo Galleries</strong></a></h1>
+  <!-- Navbar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="<?= $TPL['controller'] ?>">My Photo Galleries</a>
+      </div>
+    </div>
+  </nav>
+  <!-- Navbar -->
+
+
+  <!-- Display Initial Load-->
+  <? if ($TPL['photos_entries']) { ?>
+    <div class="container">
+      <div class="row">
+        <? foreach ($TPL['photos_entries'] as $photo) { ?>
+          <div class="col-lg-3 col-md-6 col-xs-12 ">
+            <a class = "thumbnail" href="<?= $TPL['controller'] ?>?act=gallery_photos&id=<?= $photo['id'] ?>">
+              <img class="" src="<?=$photo['lastThumbPath'] ?>" >
+            </a>
+            <h4 class="thumb text-center"><?= $photo['description_file'] ?></h4>
+          </div>
+        <? }?>
+      </div>
+    </div>
+  <? } ?>
+  <!-- Display Initial Load-->
+
+  <!--Display Gallery-->
+    <? if ($TPL['gallery_entries']) { ?>
+      <div class="container">
+        <div class="row">
+          <? foreach ($TPL['photo_gallery']['photoThumbList'] as $key => $photo) { ?>
+            <div class="col-lg-4 col-md-4 col-xs-6 ">
+              <a class="thumbnail" href="<?= $TPL['controller'] ?>?act=onephoto&dir=<?= $TPL['photo_gallery']['id'] ?>&id=<?=$key?>">
+                <img class="img-responsive" src="<?=$photo ?>">
+              </a>
+            </div>
+          <? }?>
+        </div>
+      </div>
+    <? } ?>
+  <!--Display Gallery-->
+
+<!--One Photo-->
+<? if ($TPL['one_photo'])
+  { ?>
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <h1 class = "text-center"><?= $TPL['photo_info']['DESCRIPTION'] ?></h1>
       </div>
     </div>
 
-
-    <div class="row">
-      <div class="large-12 columns">
-      	<div class="panel">
-             <ul class="small-block-grid-3">
-
-              <!-- Display Initial Load-->
-               <? if ($TPL['photos_entries']) { ?>
-                 <? foreach ($TPL['photos_entries'] as $photo) { ?>
-                   <hr>
-                   <a href="<?= $TPL['controller'] ?>?act=gallery_photos&id=<?= $photo['id'] ?>"><img class="th" src="<?=$photo[lastThumbPath] ?>" ></a> <br />
-                   <p><?= $photo['description_file'] ?></p>
-
-                 <? }?>
-               <? } ?>
-
-               <!--Display Gallery-->
-               <? if ($TPL['gallery_entries']) { ?>
-                 <? foreach ($TPL['photo_gallery']['photoThumbList'] as $key => $photo) { ?>
-                   <hr>
-                   <a href="<?= $TPL['controller'] ?>?act=onephoto&dir=<?= $TPL['photo_gallery']['id'] ?>&id=<?=$key?>"><img class="th" src="<?=$photo ?>" ></a> <br />
-                 <? }?>
-               <? } ?>
-
-               <!--One Photo-->
-               <? if ($TPL['one_photo'])
-               { ?>
-                  <h3><strong><?= $TPL['photo_info']['DESCRIPTION'] ?></strong></h3>
-                  <p>
-                  <a href="<?=$TPL['photo_info']['PREVIOUS'] ?>">PREV</a>
-                  <a href="<?=$TPL['photo_info']['NEXT'] ?>">NEXT</a>
-                  <span><strong>Picture numbers</strong></span>
-                  <a class="" href="">Show All Photos</a>
-                  </p>
-                  <img class="" src="<?=$TPL['photo_info']['PHOTOTODISPLAY'] ?>" ></a> <br />
-                  <?
-                } ?>
-
-
-                <!--
-                               <li class="text-center">
-                 <a href="">
-                 <img class="th" src="" ></a> <br />
-                  <p class="text-center">My Visit to a Baseball Park</p>
-                 </li>
-                                <li class="text-center">
-                 <a href="">
-                 <img class="th" src="" ></a> <br />
-                  <p class="text-center">The Gardens I visited when I went to the Antartctic</p>
-                 </li>
-                                <li class="text-center">
-                 <a href="">
-                 <img class="th" src="" ></a> <br />
-                  <p class="text-center">A bunch of boring road pictures.</p>
-                 </li>
-                                <li class="text-center">
-                 <a href="eventPhotos.php?act=allphotos&dir=4">
-                 <img class="th" src="photos/d4/thumbs/vacation_009.jpg" ></a> <br />
-                  <p class="text-center">Some great vacation photos here. </p>
-                 </li>
-                                <li class="text-center">
-                 <a href="eventPhotos.php?act=allphotos&dir=5">
-                 <img class="th" src="photos/d5/thumbs/spain_007.jpg" ></a> <br />
-                  <p class="text-center">My awesome photos from Spain!!!</p>
-                 </li>
-                             </ul>
-                           -->
-
-
-
-
-
-
-
-
-      	</div>
+    <div class = "text-center">
+      <div class="container-fluid">
+        <div class="col-md-12">
+          <p>
+            <a href="<?=$TPL['photo_info']['PREVIOUS'] ?>">PREV</a>
+            <a href="<?=$TPL['photo_info']['NEXT'] ?>">NEXT</a>
+            <span><strong>(<?= $TPL['photo_info']['THISPHOTO']?>/<?= count($scannedDirectory)?>)</strong></span>
+            <a class="" href="<?= $TPL['controller'] ?>?act=gallery_photos&id=<?= $TPL['photo_info']['DIR'] ?>">Show All Photos</a>
+          </p>
+        </div>
       </div>
     </div>
 
+    <hr />
 
+    <div class="container-fluid">
+      <div class="col-md-12">
+        <img class="img-responsive center-block" src="<?=$TPL['photo_info']['PHOTOTODISPLAY'] ?>" ></a> <br />
+      </div>
+    </div>
+<? } ?>
+<!--One Photo-->
+
+<!-- JS Script -->
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap.min.js"></script>
+<!-- JS Script -->
 
-
-
-    <pre>  <? print_r($TPL) ?></pre>
-
-
+    <!-- Use for testing if needed - <pre>  <? print_r($TPL) ?></pre> -->
   </body>
-  </html>
+</html>
